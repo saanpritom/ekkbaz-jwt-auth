@@ -11,21 +11,34 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
+
+
+# Initialize the environment variable file.
+env = environ.Env(
+    DEBUG=(bool, False)
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+# BASE_DIR = os.path.join(ROOT_DIR, 'app')
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Set the environment file path.
+environ.Env.read_env(os.path.join(ROOT_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*++pocfrp@q46!9ozhf!z!@zh90(m*%m2ei3kd7fcr4dkl15lo'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -75,8 +88,8 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env.str('DATABASE_ENGINE'),
+        'NAME': BASE_DIR / env.str('DATABASE_NAME'),
     }
 }
 
@@ -103,13 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = env.str('LANGUAGE_CODE')
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = env.str('TIME_ZONE')
 
-USE_I18N = True
+USE_I18N = env.bool('USE_I18N')
 
-USE_TZ = True
+USE_TZ = env.bool('USE_TZ')
 
 
 # Static files (CSS, JavaScript, Images)
@@ -121,3 +134,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# JWT Settings
+JWT_EXPIRATION_SECONDS = env.int('JWT_EXPIRATION_SECONDS')
+JWT_PRIVATE_KEY_PATH = os.path.join(ROOT_DIR, env.str('JWT_PRIVATE_KEY_PATH'))
+JWT_PUBLIC_KEY_PATH = os.path.join(ROOT_DIR, env.str('JWT_PUBLIC_KEY_PATH'))
+JWT_PRIVATE_KEY_PASSPHRASE = env.str('JWT_PRIVATE_KEY_PASSPHRASE')
+JWT_ALGORITHM = 'RS256'
+JWT_ISSUER = env.str('JWT_ISSUER')
+JWT_DEFAULT_AUDIENCE = env.list('JWT_DEFAULT_AUDIENCE')
+JWT_AUDIENCES = env.list('JWT_AUDIENCES')
