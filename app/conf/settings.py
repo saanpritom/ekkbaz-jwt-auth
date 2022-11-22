@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'apps.tauth',
 ]
 
 MIDDLEWARE = [
@@ -134,6 +136,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Default super user settings and creds.
+DJANGO_SUPERUSER_USERNAME = env.str('DJANGO_SUPERUSER_USERNAME')
+DJANGO_SUPERUSER_EMAIL = env.str('DJANGO_SUPERUSER_EMAIL')
+DJANGO_SUPERUSER_PASSWORD = env.str('DJANGO_SUPERUSER_PASSWORD')
 
 # JWT Settings
 JWT_EXPIRATION_SECONDS = env.int('JWT_EXPIRATION_SECONDS')
