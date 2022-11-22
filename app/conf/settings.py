@@ -91,7 +91,11 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': env.str('JWT_AUTH_DATABASE_ENGINE'),
-        'NAME': BASE_DIR / env.str('JWT_AUTH_DATABASE_NAME'),
+        'NAME': env.str('JWT_AUTH_DATABASE_NAME'),
+        'USER': env.str('JWT_AUTH_DATABASE_USER'),
+        'PASSWORD': env.str('JWT_AUTH_DATABASE_PASSWORD'),
+        'HOST': env.str('JWT_AUTH_DATABASE_HOST'),
+        'PORT': env.int('JWT_AUTH_DATABASE_PORT'),
     }
 }
 
