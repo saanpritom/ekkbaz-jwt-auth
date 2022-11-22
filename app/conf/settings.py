@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 import os
 import environ
 
@@ -51,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'apps.tauth',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -114,6 +115,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# DRF Settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -143,11 +151,34 @@ DJANGO_SUPERUSER_EMAIL = env.str('DJANGO_SUPERUSER_EMAIL')
 DJANGO_SUPERUSER_PASSWORD = env.str('DJANGO_SUPERUSER_PASSWORD')
 
 # JWT Settings
-JWT_EXPIRATION_SECONDS = env.int('JWT_EXPIRATION_SECONDS')
-JWT_PRIVATE_KEY_PATH = os.path.join(ROOT_DIR, env.str('JWT_PRIVATE_KEY_PATH'))
-JWT_PUBLIC_KEY_PATH = os.path.join(ROOT_DIR, env.str('JWT_PUBLIC_KEY_PATH'))
-JWT_PRIVATE_KEY_PASSPHRASE = env.str('JWT_PRIVATE_KEY_PASSPHRASE')
-JWT_ALGORITHM = 'RS256'
-JWT_ISSUER = env.str('JWT_ISSUER')
-JWT_DEFAULT_AUDIENCE = env.list('JWT_DEFAULT_AUDIENCE')
-JWT_AUDIENCES = env.list('JWT_AUDIENCES')
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=env.int('ACCESS_TOKEN_LIFETIME_MINUTES')),
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=env.int('REFRESH_TOKEN_LIFETIME_MINUTES')),
+    'ROTATE_REFRESH_TOKENS': env.bool('ROTATE_REFRESH_TOKENS'),
+    'BLACKLIST_AFTER_ROTATION': env.bool('BLACKLIST_AFTER_ROTATION'),
+    'UPDATE_LAST_LOGIN': env.bool('UPDATE_LAST_LOGIN'),
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': env.str('SIGNING_KEY'),
+    'VERIFYING_KEY': env.str('VERIFYING_KEY'),
+    'AUDIENCE': env.str('AUDIENCE'),
+    'ISSUER': env.str('ISSUER'),
+    'JWK_URL': None,
+    'LEEWAY': env.int('LEEWAY_MINUTES'),
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=env.int('SLIDING_TOKEN_LIFETIME_MINUTES')),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(minutes=env.int('SLIDING_TOKEN_REFRESH_LIFETIME_MINUTES')),
+}
