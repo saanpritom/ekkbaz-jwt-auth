@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'apps.tokens',
 ]
 
 MIDDLEWARE = [
@@ -155,9 +156,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Default super user settings and creds.
-DJANGO_SUPERUSER_USERNAME = env.str('DJANGO_SUPERUSER_USERNAME')
-DJANGO_SUPERUSER_EMAIL = env.str('DJANGO_SUPERUSER_EMAIL')
-DJANGO_SUPERUSER_PASSWORD = env.str('DJANGO_SUPERUSER_PASSWORD')
+DJANGO_SUPERUSER_USERNAME = env.str('JWT_AUTH_DJANGO_SUPERUSER_USERNAME')
+DJANGO_SUPERUSER_EMAIL = env.str('JWT_AUTH_DJANGO_SUPERUSER_EMAIL')
+DJANGO_SUPERUSER_PASSWORD = env.str('JWT_AUTH_DJANGO_SUPERUSER_PASSWORD')
 
 # JWT Settings
 SIMPLE_JWT = {

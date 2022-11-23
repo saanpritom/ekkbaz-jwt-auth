@@ -38,13 +38,13 @@ mentioned on the **.env** file's `DJANGO_SUPERUSER_USERNAME` and `DJANGO_SUPERUS
 - To generate access token and refresh token visit this link.
 
 ```link
-https://{your-server-domain}/api/token/
+https://{your-server-domain}/auth/api/token/
 ```
 
 - To get a refreshed token visit this link. You need the generated refresh token as the input here.
 
 ```link
-https://{your-server-domain}/api/token/refresh/
+https://{your-server-domain}/auth/api/token/refresh/
 ```
 
 <sup> [Pritom Borogoria](https://github.com/saanpritom) reserves all right.</sup>
