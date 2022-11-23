@@ -1,5 +1,7 @@
 FROM python:3.10.8-alpine
 
+ARG BUILD_TYPE=development
+
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main openssl \
     build-base cmake musl-dev linux-headers alpine-sdk postgresql-client libpq
 
