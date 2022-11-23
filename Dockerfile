@@ -10,7 +10,7 @@ RUN apk add --no-cache --upgrade --virtual .build-deps postgresql-dev zlib-dev j
 
 WORKDIR /service
 COPY . .
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx/default.conf /etc/nginx/http.d/default.conf
 
 RUN apk add --no-cache libffi-dev
 RUN pip install --upgrade pip && \
